@@ -1,0 +1,22 @@
+:root {
+--rich-black: #071013;
+--cadets-gray: #7E94A0;
+--paynes-gray: #5D737E;
+--maize: #E0C600;
+--mint-cream: #F0F7EE;
+--cam-blue: #87BBA2;
+--white: #ffffffff;
+ 
+/* SCSS Gradient */
+$gradient-top: linear-gradient(0deg, #000000ff, #14213dff, #fca311ff, #e5e5e5ff, #ffffffff);
+$gradient-right: linear-gradient(90deg, #000000ff, #14213dff, #fca311ff, #e5e5e5ff, #ffffffff);
+$gradient-bottom: linear-gradient(180deg, #000000ff, #14213dff, #fca311ff, #e5e5e5ff, #ffffffff);
+$gradient-left: linear-gradient(270deg, #000000ff, #14213dff, #fca311ff, #e5e5e5ff, #ffffffff);
+$gradient-top-right: linear-gradient(45deg, #000000ff, #14213dff, #fca311ff, #e5e5e5ff, #ffffffff);
+$gradient-bottom-right: linear-gradient(135deg, #000000ff, #14213dff, #fca311ff, #e5e5e5ff, #ffffffff);
+$gradient-top-left: linear-gradient(225deg, #000000ff, #14213dff, #fca311ff, #e5e5e5ff, #ffffffff);
+$gradient-bottom-left: linear-gradient(315deg, #000000ff, #14213dff, #fca311ff, #e5e5e5ff, #ffffffff);
+$gradient-radial: radial-gradient(#000000ff, #14213dff, #fca311ff, #e5e5e5ff, #ffffffff);
+}
+
+
