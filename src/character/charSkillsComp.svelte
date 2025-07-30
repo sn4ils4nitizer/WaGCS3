@@ -6,406 +6,83 @@
   function toggleMode() {
     editMode = !editMode;
   }
+
+  const getTotal = (
+    skill: Skill,
+    attributes: Attributes,
+    bonuses: Attributes,
+  ): number => {
+    return (
+      skill.rating + attributes[skill.attribute] + bonuses[skill.attribute]
+    );
+  };
+
+  $: skillPairs = $currentCharacter
+    ? Array.from(
+        { length: Math.ceil($currentCharacter.skills.length / 2) },
+        (_, i) => [
+          $currentCharacter.skills[i * 2],
+          $currentCharacter.skills[i * 2 + 1],
+        ],
+      )
+    : [];
 </script>
 
 {#if $currentCharacter}
-  {#if !editMode}
-    <div>
-      <!--  <div>{editMode}</div> -->
-      <!-- Non-editable table -->
-      <table class="attribute-table">
-        <thead>
-          <tr
-            ><th colspan="8">
-              <div class="skills-header">
-                <button on:click={() => toggleMode()}>Edit</button>
-                Skills:
-              </div></th
-            ></tr
-          >
-          <tr>
-            <th></th>
-            <th></th>
-            <th>Rating</th>
-            <th>Total</th>
-            <th></th>
-            <th></th>
-            <th>Rating</th>
-            <th>Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Athletics</td>
-            <td>(S)</td>
-            <td>{$currentCharacter.skills.athletics}</td>
-            <td
-              >{$currentCharacter.skills.athletics +
-                $currentCharacter.attributes.strength +
-                $currentCharacter.attBonuses.bstrength}</td
-            >
-            <td>Medicae</td>
-            <td>(Int)</td>
-            <td>{$currentCharacter.skills.medicae}</td>
-            <td
-              >{$currentCharacter.skills.medicae +
-                $currentCharacter.attributes.intellect +
-                $currentCharacter.attBonuses.bintellect}</td
-            >
-          </tr>
-          <tr>
-            <td>Awareness</td>
-            <td>(Int)</td>
-            <td>{$currentCharacter.skills.awareness}</td>
-            <td
-              >{$currentCharacter.skills.awareness +
-                $currentCharacter.attributes.intellect +
-                $currentCharacter.attBonuses.bintellect}</td
-            >
-            <td>Persuasion</td>
-            <td>(Fel)</td>
-            <td>{$currentCharacter.skills.persuasion}</td>
-            <td
-              >{$currentCharacter.skills.persuasion +
-                $currentCharacter.attributes.fellowship +
-                $currentCharacter.attBonuses.bfellowship}</td
-            >
-          </tr>
-          <tr>
-            <td>Ballistic Skill</td>
-            <td>(A)</td>
-            <td>{$currentCharacter.skills.ballisticSkill}</td>
-            <td
-              >{$currentCharacter.skills.ballisticSkill +
-                $currentCharacter.attributes.agility +
-                $currentCharacter.attBonuses.bagility}</td
-            >
-            <td>Pilot</td>
-            <td>(A)</td>
-            <td>{$currentCharacter.skills.pilot}</td>
-            <td
-              >{$currentCharacter.skills.pilot +
-                $currentCharacter.attributes.agility +
-                $currentCharacter.attBonuses.bagility}</td
-            >
-          </tr>
-          <tr>
-            <td>Cunning</td>
-            <td>(Fel)</td>
-            <td>{$currentCharacter.skills.cunning}</td>
-            <td
-              >{$currentCharacter.skills.cunning +
-                $currentCharacter.attributes.fellowship +
-                $currentCharacter.attBonuses.bfellowship}</td
-            >
-            <td>Psychich Mastery</td>
-            <td>(Wil)</td>
-            <td>{$currentCharacter.skills.psychicMasatery}</td>
-            <td
-              >{$currentCharacter.skills.psychicMasatery +
-                $currentCharacter.attributes.willpower +
-                $currentCharacter.attBonuses.bwillpower}</td
-            >
-          </tr>
-          <tr>
-            <td>Deception</td>
-            <td>(Fel)</td>
-            <td>{$currentCharacter.skills.deception}</td>
-            <td
-              >{$currentCharacter.skills.deception +
-                $currentCharacter.attributes.fellowship +
-                $currentCharacter.attBonuses.bfellowship}</td
-            >
-            <td>Scholar</td>
-            <td>(Int)</td>
-            <td>{$currentCharacter.skills.scholar}</td>
-            <td
-              >{$currentCharacter.skills.scholar +
-                $currentCharacter.attributes.intellect +
-                $currentCharacter.attBonuses.bintellect}</td
-            >
-          </tr>
-          <tr>
-            <td>Insight</td>
-            <td>(Fel)</td>
-            <td>{$currentCharacter.skills.insight}</td>
-            <td
-              >{$currentCharacter.skills.insight +
-                $currentCharacter.attributes.fellowship +
-                $currentCharacter.attBonuses.bfellowship}</td
-            >
-            <td>Stealth</td>
-            <td>(A)</td>
-            <td>{$currentCharacter.skills.stealth}</td>
-            <td
-              >{$currentCharacter.skills.stealth +
-                $currentCharacter.attributes.agility +
-                $currentCharacter.attBonuses.bagility}</td
-            >
-          </tr>
-          <tr>
-            <td>Intimidation</td>
-            <td>(Wil)</td>
-            <td>{$currentCharacter.skills.intimidation}</td>
-            <td
-              >{$currentCharacter.skills.intimidation +
-                $currentCharacter.attributes.willpower +
-                $currentCharacter.attBonuses.bwillpower}</td
-            >
-            <td>Survival</td>
-            <td>(Wil)</td>
-            <td>{$currentCharacter.skills.survival}</td>
-            <td
-              >{$currentCharacter.skills.survival +
-                $currentCharacter.attributes.willpower +
-                $currentCharacter.attBonuses.bwillpower}</td
-            >
-          </tr>
-          <tr>
-            <td>Investigation</td>
-            <td>(Int)</td>
-            <td>{$currentCharacter.skills.investigation}</td>
-            <td
-              >{$currentCharacter.skills.investigation +
-                $currentCharacter.attributes.intellect +
-                $currentCharacter.attBonuses.bintellect}</td
-            >
-            <td>Tech</td>
-            <td>(Int)</td>
-            <td>{$currentCharacter.skills.tech}</td>
-            <td
-              >{$currentCharacter.skills.tech +
-                $currentCharacter.attributes.intellect +
-                $currentCharacter.attBonuses.bintellect}</td
-            >
-          </tr>
-          <tr>
-            <td>Leadership</td>
-            <td>(Wil)</td>
-            <td>{$currentCharacter.skills.leadership}</td>
-            <td
-              >{$currentCharacter.skills.leadership +
-                $currentCharacter.attributes.willpower +
-                $currentCharacter.attBonuses.bwillpower}</td
-            >
-            <td>Weapon Skill</td>
-            <td>(I)</td>
-            <td>{$currentCharacter.skills.weaponSkill}</td>
-            <td
-              >{$currentCharacter.skills.weaponSkill +
-                $currentCharacter.attributes.initiative +
-                $currentCharacter.attBonuses.binitiative}</td
-            >
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  {:else}
-    <div>
-      <!-- Editable Table -->
-      <table class="attribute-table">
-        <thead>
-          <tr
-            ><th colspan="8">
-              <div class="skills-header">
-                <button on:click={() => toggleMode()}>Edit</button>
-                Skills:
-              </div></th
-            ></tr
-          >
-          <tr>
-            <th></th>
-            <th></th>
-            <th>Rating</th>
-            <th>Total</th>
-            <th></th>
-            <th></th>
-            <th>Rating</th>
-            <th>Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Athletics</td>
-            <td>(S)</td>
-            <td
-              ><input
-                type="number"
-                bind:value={$currentCharacter.skills.athletics}
-              /></td
-            >
-            <td
-              >{$currentCharacter.skills.athletics +
-                $currentCharacter.attributes.strength +
-                $currentCharacter.attBonuses.bstrength}</td
-            >
-            <td>Medicae</td>
-            <td>(Int)</td>
-            <td
-              ><input
-                type="number"
-                bind:value={$currentCharacter.skills.medicae}
-              /></td
-            >
-            <td
-              >{$currentCharacter.skills.medicae +
-                $currentCharacter.attributes.intellect +
-                $currentCharacter.attBonuses.bintellect}</td
-            >
-          </tr>
-          <tr>
-            <td>Awareness</td>
-            <td>(Int)</td>
-            <td
-              ><input
-                type="number"
-                bind:value={$currentCharacter.skills.awareness}
-              /></td
-            >
-            <td
-              >{$currentCharacter.skills.awareness +
-                $currentCharacter.attributes.intellect +
-                $currentCharacter.attBonuses.bintellect}</td
-            >
-            <td>Persuasion</td>
-            <td>(Fel)</td>
-            <td>{$currentCharacter.skills.persuasion}</td>
-            <td
-              >{$currentCharacter.skills.persuasion +
-                $currentCharacter.attributes.fellowship +
-                $currentCharacter.attBonuses.bfellowship}</td
-            >
-          </tr>
-          <tr>
-            <td>Ballistic Skill</td>
-            <td>(A)</td>
-            <td>{$currentCharacter.skills.ballisticSkill}</td>
-            <td
-              >{$currentCharacter.skills.ballisticSkill +
-                $currentCharacter.attributes.agility +
-                $currentCharacter.attBonuses.bagility}</td
-            >
-            <td>Pilot</td>
-            <td>(A)</td>
-            <td>{$currentCharacter.skills.pilot}</td>
-            <td
-              >{$currentCharacter.skills.pilot +
-                $currentCharacter.attributes.agility +
-                $currentCharacter.attBonuses.bagility}</td
-            >
-          </tr>
-          <tr>
-            <td>Cunning</td>
-            <td>(Fel)</td>
-            <td>{$currentCharacter.skills.cunning}</td>
-            <td
-              >{$currentCharacter.skills.cunning +
-                $currentCharacter.attributes.fellowship +
-                $currentCharacter.attBonuses.bfellowship}</td
-            >
-            <td>Psychich Mastery</td>
-            <td>(Wil)</td>
-            <td>{$currentCharacter.skills.psychicMasatery}</td>
-            <td
-              >{$currentCharacter.skills.psychicMasatery +
-                $currentCharacter.attributes.willpower +
-                $currentCharacter.attBonuses.bwillpower}</td
-            >
-          </tr>
-          <tr>
-            <td>Deception</td>
-            <td>(Fel)</td>
-            <td>{$currentCharacter.skills.deception}</td>
-            <td
-              >{$currentCharacter.skills.deception +
-                $currentCharacter.attributes.fellowship +
-                $currentCharacter.attBonuses.bfellowship}</td
-            >
-            <td>Scholar</td>
-            <td>(Int)</td>
-            <td>{$currentCharacter.skills.scholar}</td>
-            <td
-              >{$currentCharacter.skills.scholar +
-                $currentCharacter.attributes.intellect +
-                $currentCharacter.attBonuses.bintellect}</td
-            >
-          </tr>
-          <tr>
-            <td>Insight</td>
-            <td>(Fel)</td>
-            <td>{$currentCharacter.skills.insight}</td>
-            <td
-              >{$currentCharacter.skills.insight +
-                $currentCharacter.attributes.fellowship +
-                $currentCharacter.attBonuses.bfellowship}</td
-            >
-            <td>Stealth</td>
-            <td>(A)</td>
-            <td>{$currentCharacter.skills.stealth}</td>
-            <td
-              >{$currentCharacter.skills.stealth +
-                $currentCharacter.attributes.agility +
-                $currentCharacter.attBonuses.bagility}</td
-            >
-          </tr>
-          <tr>
-            <td>Intimidation</td>
-            <td>(Wil)</td>
-            <td>{$currentCharacter.skills.intimidation}</td>
-            <td
-              >{$currentCharacter.skills.intimidation +
-                $currentCharacter.attributes.willpower +
-                $currentCharacter.attBonuses.bwillpower}</td
-            >
-            <td>Survival</td>
-            <td>(Wil)</td>
-            <td>{$currentCharacter.skills.survival}</td>
-            <td
-              >{$currentCharacter.skills.survival +
-                $currentCharacter.attributes.willpower +
-                $currentCharacter.attBonuses.bwillpower}</td
-            >
-          </tr>
-          <tr>
-            <td>Investigation</td>
-            <td>(Int)</td>
-            <td>{$currentCharacter.skills.investigation}</td>
-            <td
-              >{$currentCharacter.skills.investigation +
-                $currentCharacter.attributes.intellect +
-                $currentCharacter.attBonuses.bintellect}</td
-            >
-            <td>Tech</td>
-            <td>(Int)</td>
-            <td>{$currentCharacter.skills.tech}</td>
-            <td
-              >{$currentCharacter.skills.tech +
-                $currentCharacter.attributes.intellect +
-                $currentCharacter.attBonuses.bintellect}</td
-            >
-          </tr>
-          <tr>
-            <td>Leadership</td>
-            <td>(Wil)</td>
-            <td>{$currentCharacter.skills.leadership}</td>
-            <td
-              >{$currentCharacter.skills.leadership +
-                $currentCharacter.attributes.willpower +
-                $currentCharacter.attBonuses.bwillpower}</td
-            >
-            <td>Weapon Skill</td>
-            <td>(I)</td>
-            <td>{$currentCharacter.skills.weaponSkill}</td>
-            <td
-              >{$currentCharacter.skills.weaponSkill +
-                $currentCharacter.attributes.initiative +
-                $currentCharacter.attBonuses.binitiative}</td
-            >
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  {/if}
+  <table class="attribute-table">
+    <thead>
+      <tr
+        ><th colspan="8">
+          <div class="skills-header">
+            <label class="edit-toggle">
+              <button
+                class:active-toggle={editMode}
+                class="toggle-btn"
+                on:click={() => toggleMode()}
+              ></button>
+            </label> Skills:
+          </div></th
+        ></tr
+      >
+      <tr>
+        <th></th><th></th><th>Rating</th><th>Total</th>
+        <th></th><th></th><th>Rating</th><th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      {#each skillPairs as pair}
+        <tr>
+          {#each pair as skill}
+            {#if skill}
+              <th>{skill.displayName}</th>
+              <th>({skill.displayAttBonus})</th>
+              <td>
+                {#if editMode}
+                  <input
+                    type="number"
+                    bind:value={skill.rating}
+                    min="0"
+                    max="10"
+                  />
+                {:else}
+                  {skill.rating}
+                {/if}
+              </td>
+              <td
+                >{getTotal(
+                  skill,
+                  $currentCharacter.attributes,
+                  $currentCharacter.attBonuses,
+                )}</td
+              >
+            {:else}
+              <td colspan="4"></td>
+            {/if}
+          {/each}
+        </tr>
+      {/each}
+    </tbody>
+  </table>
 {/if}
 
 <style>
@@ -417,7 +94,8 @@
     border-radius: 1rem;
   }
   td {
-    height: 1.5rem;
+    height: 1.2rem;
+    color: var(--white);
   }
 
   .skills-header {
@@ -428,16 +106,25 @@
     position: relative;
   }
 
-  .skills-header button {
-    font-size: 4pt;
+  .edit-toggle {
+    display: flex;
+    align-items: center;
     position: absolute;
     left: 0;
-    height: 1rem;
-    width: 2rem;
+  }
+
+  .toggle-btn {
+    border-radius: 0px;
+    background-color: var(--maize);
+  }
+  .toggle-btn.active-toggle {
+    border-radius: 0px;
+    background-color: red;
   }
 
   input {
-    width: 2rem;
+    background-color: var(--maize);
+    width: 1.5rem;
     height: 1rem;
   }
 </style>

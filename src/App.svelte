@@ -6,6 +6,7 @@
   import OptionsView from "./OptionsView.svelte";
   import NavBar from "./lib/NavBar.svelte";
 
+
   let currentView = "list";
 
   function changeView(view: string) {

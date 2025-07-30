@@ -55,8 +55,8 @@
       0 0 1rem,
       rgba(0, 0, 0, 0.5);
     width: 100%;
-    min-width: 600px;
-    max-width: 600px;
+    min-width: 650px;
+    max-width: 650px;
     height: min(80vh, 800px);
     margin: 2rem auto;
     font-family: monospace;
